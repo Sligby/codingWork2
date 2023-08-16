@@ -37,6 +37,10 @@ class User(db.Model):
     last_name= db.Column(db.Text,
                           nullable=False)
 
+    feedbacks = db.Relationship('Feedback', 
+                                backref = 'user', 
+                                lazy = True)
+
     # start_register
     @classmethod
     def register(cls, username, pwd):
@@ -66,4 +70,21 @@ class User(db.Model):
         else:
             return False
     # end_authenticate  
+
+class Feedback(db.model):
+    
+    __tablename__= "feedback"
+
+    id = db.Column(db.Integer, 
+                   primary_key=True, 
+                   autoincrement=True)
+    title = db.Column(db.Text,
+                    nullable=False)
+    content = db.Column(db.Text,
+                    nullable=False)
+    username = db.Column(db.Text, 
+                        db.ForiegnKey('user.username'),
+                        nullable=False)
+                        
+
 
